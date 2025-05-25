@@ -168,69 +168,69 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conexiones.cs" />
-    <Compile Include="FrmCitas.cs">
+    <Compile Include="Frm\FrmCitas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmCitas.Designer.cs">
+    <Compile Include="Frm\FrmCitas.Designer.cs">
       <DependentUpon>FrmCitas.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmDiagnostico.cs">
+    <Compile Include="Frm\FrmDiagnostico.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmDiagnostico.Designer.cs">
+    <Compile Include="Frm\FrmDiagnostico.Designer.cs">
       <DependentUpon>FrmDiagnostico.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmEspecialidades.cs">
+    <Compile Include="Frm\FrmEspecialidades.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmEspecialidades.Designer.cs">
+    <Compile Include="Frm\FrmEspecialidades.Designer.cs">
       <DependentUpon>FrmEspecialidades.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmMedicos.cs">
+    <Compile Include="Frm\FrmMedicos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmMedicos.Designer.cs">
+    <Compile Include="Frm\FrmMedicos.Designer.cs">
       <DependentUpon>FrmMedicos.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmMostrar.cs">
+    <Compile Include="Frm\FrmMostrar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmMostrar.Designer.cs">
+    <Compile Include="Frm\FrmMostrar.Designer.cs">
       <DependentUpon>FrmMostrar.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmPacientes.cs">
+    <Compile Include="Frm\FrmPacientes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmPacientes.Designer.cs">
+    <Compile Include="Frm\FrmPacientes.Designer.cs">
       <DependentUpon>FrmPacientes.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmReportes.cs">
+    <Compile Include="Frm\FrmReportes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmReportes.Designer.cs">
+    <Compile Include="Frm\FrmReportes.Designer.cs">
       <DependentUpon>FrmReportes.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FrmCitas.resx">
+    <EmbeddedResource Include="Frm\FrmCitas.resx">
       <DependentUpon>FrmCitas.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmDiagnostico.resx">
+    <EmbeddedResource Include="Frm\FrmDiagnostico.resx">
       <DependentUpon>FrmDiagnostico.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmEspecialidades.resx">
+    <EmbeddedResource Include="Frm\FrmEspecialidades.resx">
       <DependentUpon>FrmEspecialidades.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmMedicos.resx">
+    <EmbeddedResource Include="Frm\FrmMedicos.resx">
       <DependentUpon>FrmMedicos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmMostrar.resx">
+    <EmbeddedResource Include="Frm\FrmMostrar.resx">
       <DependentUpon>FrmMostrar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmPacientes.resx">
+    <EmbeddedResource Include="Frm\FrmPacientes.resx">
       <DependentUpon>FrmPacientes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmReportes.resx">
+    <EmbeddedResource Include="Frm\FrmReportes.resx">
       <DependentUpon>FrmReportes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
