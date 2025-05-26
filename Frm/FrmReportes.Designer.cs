@@ -43,6 +43,7 @@
             // 
             // dgvReporte
             // 
+            this.dgvReporte.AllowUserToAddRows = false;
             this.dgvReporte.ColumnHeadersHeight = 29;
             this.dgvReporte.Location = new System.Drawing.Point(20, 70);
             this.dgvReporte.Name = "dgvReporte";

@@ -16,6 +16,8 @@ namespace MedsiteV2
         Conexiones conexion = new Conexiones();
         SqlConnection cn;
 
+        private int? especialidadSeleccionadaId = null;
+
         public FrmEspecialidades()
         {
             InitializeComponent();
@@ -32,10 +34,23 @@ namespace MedsiteV2
         private void ConfigurarDataGridView()
         {
             dgvEspecialidades.AutoGenerateColumns = false;
-            dgvEspecialidades.Columns.Add("IdEspecialidad", "ID");
-            dgvEspecialidades.Columns.Add("NombreEspecialidad", "Especialidad");
-            dgvEspecialidades.Columns["IdEspecialidad"].DataPropertyName = "IdEspecialidad";
-            dgvEspecialidades.Columns["NombreEspecialidad"].DataPropertyName = "NombreEspecialidad";
+            dgvEspecialidades.Columns.Clear();
+
+            dgvEspecialidades.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "IdEspecialidad",
+                HeaderText = "ID",
+                DataPropertyName = "IdEspecialidad",
+                ReadOnly = true
+            });
+
+            dgvEspecialidades.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "NombreEspecialidad",
+                HeaderText = "Especialidad",
+                DataPropertyName = "NombreEspecialidad",
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            });
         }
 
         private void CargarEspecialidades()
@@ -73,28 +88,46 @@ namespace MedsiteV2
             {
                 conexion.AbrirConexion();
 
-                // Verificar si ya existe una especialidad con el mismo nombre (ignorando mayúsculas/minúsculas)
-                SqlCommand verificar = new SqlCommand("SELECT COUNT(*) FROM Especialidades WHERE LOWER(NombreEspecialidad) = LOWER(@Nombre)", cn);
+                // Verificar si ya existe otra especialidad con ese nombre (ignorando mayúsculas/minúsculas)
+                SqlCommand verificar = new SqlCommand("SELECT COUNT(*) FROM Especialidades WHERE LOWER(NombreEspecialidad) = LOWER(@Nombre) AND (@Id IS NULL OR IdEspecialidad != @Id)", cn);
                 verificar.Parameters.AddWithValue("@Nombre", nombre);
+                verificar.Parameters.AddWithValue("@Id", (object)especialidadSeleccionadaId ?? DBNull.Value);
+
                 int existe = (int)verificar.ExecuteScalar();
 
                 if (existe > 0)
                 {
-                    MessageBox.Show("Esta especialidad ya está registrada.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Ya existe una especialidad con ese nombre.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO Especialidades (NombreEspecialidad) VALUES (@Nombre);", cn);
+                SqlCommand cmd;
+
+                if (especialidadSeleccionadaId.HasValue)
+                {
+                    // EDITAR
+                    cmd = new SqlCommand("UPDATE Especialidades SET NombreEspecialidad = @Nombre WHERE IdEspecialidad = @Id", cn);
+                    cmd.Parameters.AddWithValue("@Id", especialidadSeleccionadaId.Value);
+                }
+                else
+                {
+                    // NUEVO
+                    cmd = new SqlCommand("INSERT INTO Especialidades (NombreEspecialidad) VALUES (@Nombre)", cn);
+                }
+
                 cmd.Parameters.AddWithValue("@Nombre", nombre);
                 cmd.ExecuteNonQuery();
 
-                MessageBox.Show("Especialidad registrada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string mensaje = especialidadSeleccionadaId.HasValue ? "Especialidad actualizada." : "Especialidad registrada.";
+                MessageBox.Show(mensaje, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 txtEspecialidad.Clear();
+                especialidadSeleccionadaId = null;
                 CargarEspecialidades();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -144,11 +177,22 @@ namespace MedsiteV2
             }
         }
 
+        //SELECCIONAR ESPECIALIDAD PARA BORRAR (AGREGAR PODER EDITARLA)
         private void dgvEspecialidades_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
                 txtEspecialidad.Text = dgvEspecialidades.Rows[e.RowIndex].Cells["NombreEspecialidad"].Value.ToString();
+                especialidadSeleccionadaId = Convert.ToInt32(dgvEspecialidades.Rows[e.RowIndex].Cells["IdEspecialidad"].Value);
+            }
+        }
+
+        private void dgvEspecialidades_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                txtEspecialidad.Text = dgvEspecialidades.Rows[e.RowIndex].Cells["NombreEspecialidad"].Value.ToString();
+                especialidadSeleccionadaId = Convert.ToInt32(dgvEspecialidades.Rows[e.RowIndex].Cells["IdEspecialidad"].Value);
             }
         }
     }

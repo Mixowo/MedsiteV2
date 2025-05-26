@@ -15,6 +15,8 @@ namespace MedsiteV2
     {
         Conexiones conexion = new Conexiones();
         SqlConnection cn;
+        private int? citaSeleccionadaId = null;
+        private int? medicoSeleccionadoId = null;
 
         public FrmCitas()
         {
@@ -22,31 +24,24 @@ namespace MedsiteV2
             cn = conexion.AbrirConexion();
             CargarPacientes();
             CargarMedicos();
+            ConfigurarEstadoCita(nueva: true);
             MostrarCitas();
+            dtpFechaHora.Format = DateTimePickerFormat.Custom;
+            dtpFechaHora.CustomFormat = "dd/MM/yyyy hh:mm tt";
+            dtpFechaHora.ShowUpDown = true;
         }
 
-
-        private void FrmCitas_Load(object sender, EventArgs e)
+        private void CargarMedicos(int? idMedicoSeleccionado = null)
         {
+            string query = "SELECT IdMedico, NombreCompleto FROM Medicos WHERE Disponible = 1";
 
-        }
+            if (idMedicoSeleccionado.HasValue)
+            {
+                query = "SELECT IdMedico, NombreCompleto FROM Medicos WHERE Disponible = 1 " +
+                        $"UNION SELECT IdMedico, NombreCompleto FROM Medicos WHERE IdMedico = {idMedicoSeleccionado.Value}";
+            }
 
-        private void CargarPacientes()
-        {
-            SqlCommand cmd = new SqlCommand("SELECT IdPaciente, NombreCompleto FROM Pacientes", cn);
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-
-            cmbPaciente.DataSource = dt;
-            cmbPaciente.DisplayMember = "NombreCompleto";
-            cmbPaciente.ValueMember = "IdPaciente";
-        }
-
-        private void CargarMedicos()
-        {
-            SqlCommand cmd = new SqlCommand("SELECT IdMedico, NombreCompleto FROM Medicos WHERE Disponible = 1", cn);
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            SqlDataAdapter da = new SqlDataAdapter(query, cn);
             DataTable dt = new DataTable();
             da.Fill(dt);
 
@@ -55,51 +50,112 @@ namespace MedsiteV2
             cmbMedico.ValueMember = "IdMedico";
         }
 
+        private void ConfigurarEstadoCita(bool nueva)
+        {
+            cmbEstado.Items.Clear();
+            cmbEstado.Items.Add("Pendiente");
+            cmbEstado.Items.Add("Confirmada");
+            if (!nueva)
+                cmbEstado.Items.Add("Cancelada");
+
+            cmbEstado.SelectedIndex = 0;
+        }
+
         private void MostrarCitas()
         {
-            SqlCommand cmd = new SqlCommand(@"
-        SELECT C.IdCita, P.NombreCompleto AS Paciente, M.NombreCompleto AS Medico, 
-               C.FechaHora, C.Estado
-        FROM Citas C
-        INNER JOIN Pacientes P ON C.IdPaciente = P.IdPaciente
-        INNER JOIN Medicos M ON C.IdMedico = M.IdMedico", cn);
-
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            string query = "SELECT c.IdCita, c.IdMedico, c.FechaHora, m.NombreCompleto AS Medico, c.Estado " +
+                           "FROM Citas c JOIN Medicos m ON c.IdMedico = m.IdMedico";
+            SqlDataAdapter da = new SqlDataAdapter(query, cn);
             DataTable dt = new DataTable();
             da.Fill(dt);
             dgvCitas.DataSource = dt;
+            dgvCitas.Columns["IdMedico"].Visible = false;
+        }
+
+        private void LimpiarCampos()
+        {
+            cmbMedico.SelectedIndex = 0;
+            dtpFechaHora.Value = DateTime.Now;
+            ConfigurarEstadoCita(nueva: true);
+            citaSeleccionadaId = null;
+            medicoSeleccionadoId = null;
         }
 
         private void btnAgendar_Click(object sender, EventArgs e)
         {
-            try
+            if (cmbMedico.SelectedValue == null || cmbEstado.SelectedItem == null)
             {
-                int idPaciente = Convert.ToInt32(cmbPaciente.SelectedValue);
-                int idMedico = Convert.ToInt32(cmbMedico.SelectedValue);
-                DateTime fechaHora = dtpFechaHora.Value;
-                string estado = cmbEstado.SelectedItem.ToString();
+                MessageBox.Show("Todos los campos son obligatorios.");
+                return;
+            }
 
-                string query = "INSERT INTO Citas (IdPaciente, IdMedico, FechaHora, Estado) " +
-                               "VALUES (@IdPaciente, @IdMedico, @FechaHora, @Estado)";
+            int idMedico = Convert.ToInt32(cmbMedico.SelectedValue);
+            DateTime fechaHora = dtpFechaHora.Value;
+            string estado = cmbEstado.SelectedItem.ToString();
 
-                SqlCommand cmd = new SqlCommand(query, cn);
-                cmd.Parameters.AddWithValue("@IdPaciente", idPaciente);
+            string query;
+
+            if (citaSeleccionadaId == null)
+            {
+                query = "INSERT INTO Citas (IdMedico, IdPaciente, FechaHora, Estado) VALUES (@IdMedico, @IdPaciente, @FechaHora, @Estado)";
+            }
+            else
+            {
+                query = "UPDATE Citas SET IdMedico = @IdMedico, FechaHora = @FechaHora, Estado = @Estado WHERE IdCita = @IdCita";
+            }
+
+            using (SqlCommand cmd = new SqlCommand(query, cn))
+            {
                 cmd.Parameters.AddWithValue("@IdMedico", idMedico);
+                cmd.Parameters.AddWithValue("@IdPaciente", Convert.ToInt32(cmbPaciente.SelectedValue));
                 cmd.Parameters.AddWithValue("@FechaHora", fechaHora);
                 cmd.Parameters.AddWithValue("@Estado", estado);
+                if (citaSeleccionadaId != null)
+                    cmd.Parameters.AddWithValue("@IdCita", citaSeleccionadaId);
 
                 cmd.ExecuteNonQuery();
-
-                MessageBox.Show("Cita registrada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                MostrarCitas(); // Puedes actualizar el DataGridView si tienes uno
             }
-            catch (Exception ex)
+
+            ActualizarDisponibilidadMedico(idMedico, estado);
+            MessageBox.Show("Cita guardada correctamente.");
+            LimpiarCampos();
+            MostrarCitas();
+        }
+
+        private void ActualizarDisponibilidadMedico(int idMedico, string estado)
+        {
+            bool disponible = estado == "Cancelada";
+            string query = "UPDATE Medicos SET Disponible = @Disponible WHERE IdMedico = @IdMedico";
+            using (SqlCommand cmd = new SqlCommand(query, cn))
             {
-                MessageBox.Show("Error al registrar cita: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cmd.Parameters.AddWithValue("@Disponible", disponible);
+                cmd.Parameters.AddWithValue("@IdMedico", idMedico);
+                cmd.ExecuteNonQuery();
             }
         }
 
+        private void dgvCitas_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow fila = dgvCitas.Rows[e.RowIndex];
+                citaSeleccionadaId = Convert.ToInt32(fila.Cells["IdCita"].Value);
+                dtpFechaHora.Value = Convert.ToDateTime(fila.Cells["FechaHora"].Value);
+
+                int idMedico = Convert.ToInt32(fila.Cells["IdMedico"].Value);
+                CargarMedicos(idMedico); // Mostrar aunque esté no disponible
+                cmbMedico.SelectedValue = idMedico;
+                cmbEstado.Text = fila.Cells["Estado"].Value.ToString();
+
+                ConfigurarEstadoCita(nueva: false); // Mostrar "Cancelada"
+            }
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            LimpiarCampos();
+        }
+    
         private void cmbPaciente_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -118,6 +174,23 @@ namespace MedsiteV2
         private void cmbEstado_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void FrmCitas_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CargarPacientes()
+        {
+            string query = "SELECT IdPaciente, NombreCompleto FROM Pacientes";
+            SqlDataAdapter da = new SqlDataAdapter(query, cn);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            cmbPaciente.DataSource = dt;
+            cmbPaciente.DisplayMember = "NombreCompleto";
+            cmbPaciente.ValueMember = "IdPaciente";
         }
     }
 }

@@ -112,12 +112,14 @@
             // 
             // dgvCitas
             // 
+            this.dgvCitas.AllowUserToAddRows = false;
             this.dgvCitas.ColumnHeadersHeight = 29;
             this.dgvCitas.Location = new System.Drawing.Point(20, 230);
             this.dgvCitas.Name = "dgvCitas";
             this.dgvCitas.RowHeadersWidth = 51;
             this.dgvCitas.Size = new System.Drawing.Size(600, 200);
             this.dgvCitas.TabIndex = 9;
+            this.dgvCitas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCitas_CellClick);
             // 
             // FrmCitas
             // 

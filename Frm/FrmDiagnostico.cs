@@ -35,7 +35,7 @@ namespace MedsiteV2
                                        P.NombreCompleto + ' - ' + CONVERT(VARCHAR, C.FechaHora, 103) AS InfoCita
                                 FROM Citas C
                                 JOIN Pacientes P ON C.IdPaciente = P.IdPaciente
-                                WHERE C.Estado = 'Completada' 
+                                WHERE C.Estado = 'Confirmada' 
                                 AND NOT EXISTS (SELECT 1 FROM Diagnosticos WHERE IdCita = C.IdCita)"; // Solo citas sin diagnóstico
 
                 SqlDataAdapter da = new SqlDataAdapter(query, cn);

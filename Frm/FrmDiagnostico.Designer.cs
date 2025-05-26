@@ -82,6 +82,7 @@
             // 
             // dgvDiagnosticos
             // 
+            this.dgvDiagnosticos.AllowUserToAddRows = false;
             this.dgvDiagnosticos.ColumnHeadersHeight = 29;
             this.dgvDiagnosticos.Location = new System.Drawing.Point(20, 190);
             this.dgvDiagnosticos.Name = "dgvDiagnosticos";
