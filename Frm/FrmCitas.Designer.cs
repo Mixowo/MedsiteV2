@@ -26,6 +26,7 @@
             this.cmbEstado = new System.Windows.Forms.ComboBox();
             this.btnAgendar = new System.Windows.Forms.Button();
             this.dgvCitas = new System.Windows.Forms.DataGridView();
+            this.btnLimpiar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCitas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -121,9 +122,19 @@
             this.dgvCitas.TabIndex = 9;
             this.dgvCitas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCitas_CellClick);
             // 
+            // btnLimpiar
+            // 
+            this.btnLimpiar.Location = new System.Drawing.Point(201, 180);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.btnLimpiar.TabIndex = 15;
+            this.btnLimpiar.Text = "Limpiar";
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
+            // 
             // FrmCitas
             // 
             this.ClientSize = new System.Drawing.Size(650, 460);
+            this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.lblPaciente);
             this.Controls.Add(this.cmbPaciente);
             this.Controls.Add(this.lblMedico);
@@ -141,5 +152,7 @@
             this.ResumeLayout(false);
 
         }
+
+        private System.Windows.Forms.Button btnLimpiar;
     }
 }

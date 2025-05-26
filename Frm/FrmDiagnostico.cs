@@ -19,12 +19,12 @@ namespace MedsiteV2
         public FrmDiagnostico()
         {
             InitializeComponent();
-            cn = new Conexiones().AbrirConexion(); // Usa tu clase de conexión
-            CargarCitasCompletadas();
+            cn = new Conexiones().AbrirConexion();
+            CargarCitasConfirmadas();
             CargarDiagnosticos();
         }
 
-        private void CargarCitasCompletadas()
+        private void CargarCitasConfirmadas()
         {
             try
             {
@@ -36,7 +36,7 @@ namespace MedsiteV2
                                 FROM Citas C
                                 JOIN Pacientes P ON C.IdPaciente = P.IdPaciente
                                 WHERE C.Estado = 'Confirmada' 
-                                AND NOT EXISTS (SELECT 1 FROM Diagnosticos WHERE IdCita = C.IdCita)"; // Solo citas sin diagnóstico
+                                AND NOT EXISTS (SELECT 1 FROM Diagnosticos WHERE IdCita = C.IdCita)";
 
                 SqlDataAdapter da = new SqlDataAdapter(query, cn);
                 DataTable dt = new DataTable();
@@ -99,19 +99,24 @@ namespace MedsiteV2
                     cn.Open();
 
                 string query = @"INSERT INTO Diagnosticos (IdCita, Descripcion, Receta)
-                                VALUES (@IdCita, @Descripcion, @Receta)";
+                        VALUES (@IdCita, @Descripcion, @Receta)";
 
                 SqlCommand cmd = new SqlCommand(query, cn);
                 cmd.Parameters.AddWithValue("@IdCita", cmbCita.SelectedValue);
                 cmd.Parameters.AddWithValue("@Descripcion", txtDiagnostico.Text.Trim());
                 cmd.Parameters.AddWithValue("@Receta", txtReceta.Text.Trim());
-
                 cmd.ExecuteNonQuery();
+
+                // Marcar cita como completada
+                string updateCita = "UPDATE Citas SET Estado = 'Completada' WHERE IdCita = @IdCita";
+                SqlCommand cmdCita = new SqlCommand(updateCita, cn);
+                cmdCita.Parameters.AddWithValue("@IdCita", cmbCita.SelectedValue);
+                cmdCita.ExecuteNonQuery();
+
                 MessageBox.Show("Diagnóstico guardado exitosamente.", "Éxito",
                               MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Actualizar datos
-                CargarCitasCompletadas();
+                CargarCitasConfirmadas();
                 CargarDiagnosticos();
                 LimpiarCampos();
             }

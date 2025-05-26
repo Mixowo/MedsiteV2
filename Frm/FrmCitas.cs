@@ -63,17 +63,23 @@ namespace MedsiteV2
 
         private void MostrarCitas()
         {
-            string query = "SELECT c.IdCita, c.IdMedico, c.FechaHora, m.NombreCompleto AS Medico, c.Estado " +
-                           "FROM Citas c JOIN Medicos m ON c.IdMedico = m.IdMedico";
+            string query = @"SELECT c.IdCita, c.IdMedico, c.IdPaciente, c.FechaHora, 
+                            m.NombreCompleto AS Medico, p.NombreCompleto AS Paciente, c.Estado 
+                     FROM Citas c 
+                     JOIN Medicos m ON c.IdMedico = m.IdMedico
+                     JOIN Pacientes p ON c.IdPaciente = p.IdPaciente";
             SqlDataAdapter da = new SqlDataAdapter(query, cn);
             DataTable dt = new DataTable();
             da.Fill(dt);
             dgvCitas.DataSource = dt;
+
             dgvCitas.Columns["IdMedico"].Visible = false;
+            dgvCitas.Columns["IdPaciente"].Visible = false; // Ocultar IdPaciente en el grid, pero lo necesitamos para seleccionar paciente
         }
 
         private void LimpiarCampos()
         {
+            cmbMedico.Enabled = true;
             cmbMedico.SelectedIndex = 0;
             dtpFechaHora.Value = DateTime.Now;
             ConfigurarEstadoCita(nueva: true);
@@ -83,55 +89,46 @@ namespace MedsiteV2
 
         private void btnAgendar_Click(object sender, EventArgs e)
         {
-            if (cmbMedico.SelectedValue == null || cmbEstado.SelectedItem == null)
+            if (cmbMedico.SelectedValue == null || cmbEstado.SelectedItem == null || cmbPaciente.SelectedValue == null)
             {
                 MessageBox.Show("Todos los campos son obligatorios.");
                 return;
             }
 
             int idMedico = Convert.ToInt32(cmbMedico.SelectedValue);
+            int idPaciente = Convert.ToInt32(cmbPaciente.SelectedValue);
             DateTime fechaHora = dtpFechaHora.Value;
             string estado = cmbEstado.SelectedItem.ToString();
 
-            string query;
-
             if (citaSeleccionadaId == null)
             {
-                query = "INSERT INTO Citas (IdMedico, IdPaciente, FechaHora, Estado) VALUES (@IdMedico, @IdPaciente, @FechaHora, @Estado)";
+                using (SqlCommand cmd = new SqlCommand("RegistrarCita", cn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@IdPaciente", idPaciente);
+                    cmd.Parameters.AddWithValue("@IdMedico", idMedico);
+                    cmd.Parameters.AddWithValue("@FechaHora", fechaHora);
+                    cmd.Parameters.AddWithValue("@Estado", estado);
+                    cmd.ExecuteNonQuery();
+                }
             }
             else
             {
-                query = "UPDATE Citas SET IdMedico = @IdMedico, FechaHora = @FechaHora, Estado = @Estado WHERE IdCita = @IdCita";
-            }
-
-            using (SqlCommand cmd = new SqlCommand(query, cn))
-            {
-                cmd.Parameters.AddWithValue("@IdMedico", idMedico);
-                cmd.Parameters.AddWithValue("@IdPaciente", Convert.ToInt32(cmbPaciente.SelectedValue));
-                cmd.Parameters.AddWithValue("@FechaHora", fechaHora);
-                cmd.Parameters.AddWithValue("@Estado", estado);
-                if (citaSeleccionadaId != null)
+                string query = "UPDATE Citas SET IdMedico = @IdMedico, FechaHora = @FechaHora, Estado = @Estado WHERE IdCita = @IdCita";
+                using (SqlCommand cmd = new SqlCommand(query, cn))
+                {
+                    cmd.Parameters.AddWithValue("@IdMedico", idMedico);
+                    cmd.Parameters.AddWithValue("@FechaHora", fechaHora);
+                    cmd.Parameters.AddWithValue("@Estado", estado);
                     cmd.Parameters.AddWithValue("@IdCita", citaSeleccionadaId);
-
-                cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
+                }
             }
 
-            ActualizarDisponibilidadMedico(idMedico, estado);
             MessageBox.Show("Cita guardada correctamente.");
             LimpiarCampos();
+            CargarMedicos();
             MostrarCitas();
-        }
-
-        private void ActualizarDisponibilidadMedico(int idMedico, string estado)
-        {
-            bool disponible = estado == "Cancelada";
-            string query = "UPDATE Medicos SET Disponible = @Disponible WHERE IdMedico = @IdMedico";
-            using (SqlCommand cmd = new SqlCommand(query, cn))
-            {
-                cmd.Parameters.AddWithValue("@Disponible", disponible);
-                cmd.Parameters.AddWithValue("@IdMedico", idMedico);
-                cmd.ExecuteNonQuery();
-            }
         }
 
         private void dgvCitas_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -145,9 +142,15 @@ namespace MedsiteV2
                 int idMedico = Convert.ToInt32(fila.Cells["IdMedico"].Value);
                 CargarMedicos(idMedico); // Mostrar aunque esté no disponible
                 cmbMedico.SelectedValue = idMedico;
+
+                // Aquí asignamos el paciente seleccionado:
+                int idPaciente = Convert.ToInt32(fila.Cells["IdPaciente"].Value);
+                cmbPaciente.SelectedValue = idPaciente;
+
                 cmbEstado.Text = fila.Cells["Estado"].Value.ToString();
 
                 ConfigurarEstadoCita(nueva: false); // Mostrar "Cancelada"
+                cmbMedico.Enabled = false;
             }
         }
 
