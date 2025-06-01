@@ -16,6 +16,7 @@
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCitas));
             this.lblPaciente = new System.Windows.Forms.Label();
             this.cmbPaciente = new System.Windows.Forms.ComboBox();
             this.lblMedico = new System.Windows.Forms.Label();
@@ -32,7 +33,8 @@
             // 
             // lblPaciente
             // 
-            this.lblPaciente.Location = new System.Drawing.Point(20, 20);
+            this.lblPaciente.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPaciente.Location = new System.Drawing.Point(30, 19);
             this.lblPaciente.Name = "lblPaciente";
             this.lblPaciente.Size = new System.Drawing.Size(100, 23);
             this.lblPaciente.TabIndex = 0;
@@ -41,7 +43,7 @@
             // cmbPaciente
             // 
             this.cmbPaciente.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPaciente.Location = new System.Drawing.Point(120, 20);
+            this.cmbPaciente.Location = new System.Drawing.Point(136, 18);
             this.cmbPaciente.Name = "cmbPaciente";
             this.cmbPaciente.Size = new System.Drawing.Size(121, 24);
             this.cmbPaciente.TabIndex = 1;
@@ -49,7 +51,8 @@
             // 
             // lblMedico
             // 
-            this.lblMedico.Location = new System.Drawing.Point(20, 60);
+            this.lblMedico.Font = new System.Drawing.Font("Arial", 9F);
+            this.lblMedico.Location = new System.Drawing.Point(30, 59);
             this.lblMedico.Name = "lblMedico";
             this.lblMedico.Size = new System.Drawing.Size(100, 23);
             this.lblMedico.TabIndex = 2;
@@ -58,7 +61,7 @@
             // cmbMedico
             // 
             this.cmbMedico.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbMedico.Location = new System.Drawing.Point(120, 60);
+            this.cmbMedico.Location = new System.Drawing.Point(136, 58);
             this.cmbMedico.Name = "cmbMedico";
             this.cmbMedico.Size = new System.Drawing.Size(121, 24);
             this.cmbMedico.TabIndex = 3;
@@ -66,7 +69,8 @@
             // 
             // lblFechaHora
             // 
-            this.lblFechaHora.Location = new System.Drawing.Point(20, 100);
+            this.lblFechaHora.Font = new System.Drawing.Font("Arial", 9F);
+            this.lblFechaHora.Location = new System.Drawing.Point(30, 99);
             this.lblFechaHora.Name = "lblFechaHora";
             this.lblFechaHora.Size = new System.Drawing.Size(100, 23);
             this.lblFechaHora.TabIndex = 4;
@@ -74,7 +78,7 @@
             // 
             // dtpFechaHora
             // 
-            this.dtpFechaHora.Location = new System.Drawing.Point(120, 100);
+            this.dtpFechaHora.Location = new System.Drawing.Point(136, 98);
             this.dtpFechaHora.Name = "dtpFechaHora";
             this.dtpFechaHora.Size = new System.Drawing.Size(200, 22);
             this.dtpFechaHora.TabIndex = 5;
@@ -82,7 +86,8 @@
             // 
             // lblEstado
             // 
-            this.lblEstado.Location = new System.Drawing.Point(20, 140);
+            this.lblEstado.Font = new System.Drawing.Font("Arial", 9F);
+            this.lblEstado.Location = new System.Drawing.Point(30, 139);
             this.lblEstado.Name = "lblEstado";
             this.lblEstado.Size = new System.Drawing.Size(100, 23);
             this.lblEstado.TabIndex = 6;
@@ -96,7 +101,7 @@
             "Confirmada",
             "Cancelada",
             "Completada"});
-            this.cmbEstado.Location = new System.Drawing.Point(120, 140);
+            this.cmbEstado.Location = new System.Drawing.Point(136, 138);
             this.cmbEstado.Name = "cmbEstado";
             this.cmbEstado.Size = new System.Drawing.Size(121, 24);
             this.cmbEstado.TabIndex = 7;
@@ -104,9 +109,10 @@
             // 
             // btnAgendar
             // 
-            this.btnAgendar.Location = new System.Drawing.Point(120, 180);
+            this.btnAgendar.Font = new System.Drawing.Font("Arial", 9F);
+            this.btnAgendar.Location = new System.Drawing.Point(133, 181);
             this.btnAgendar.Name = "btnAgendar";
-            this.btnAgendar.Size = new System.Drawing.Size(75, 23);
+            this.btnAgendar.Size = new System.Drawing.Size(97, 33);
             this.btnAgendar.TabIndex = 8;
             this.btnAgendar.Text = "Agendar";
             this.btnAgendar.Click += new System.EventHandler(this.btnAgendar_Click);
@@ -115,7 +121,7 @@
             // 
             this.dgvCitas.AllowUserToAddRows = false;
             this.dgvCitas.ColumnHeadersHeight = 29;
-            this.dgvCitas.Location = new System.Drawing.Point(20, 230);
+            this.dgvCitas.Location = new System.Drawing.Point(24, 238);
             this.dgvCitas.Name = "dgvCitas";
             this.dgvCitas.RowHeadersWidth = 51;
             this.dgvCitas.Size = new System.Drawing.Size(600, 200);
@@ -124,9 +130,10 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(201, 180);
+            this.btnLimpiar.Font = new System.Drawing.Font("Arial", 9F);
+            this.btnLimpiar.Location = new System.Drawing.Point(233, 181);
             this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.btnLimpiar.Size = new System.Drawing.Size(97, 33);
             this.btnLimpiar.TabIndex = 15;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
@@ -145,8 +152,10 @@
             this.Controls.Add(this.cmbEstado);
             this.Controls.Add(this.btnAgendar);
             this.Controls.Add(this.dgvCitas);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmCitas";
-            this.Text = "Gestión de Citas";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Citas";
             this.Load += new System.EventHandler(this.FrmCitas_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCitas)).EndInit();
             this.ResumeLayout(false);

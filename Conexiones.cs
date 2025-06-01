@@ -9,7 +9,7 @@ namespace MedsiteV2
 {
     public class Conexiones
     {
-        // Ajusta el nombre de servidor y la base de datos según tu entorno
+
         private SqlConnection cn = new SqlConnection("Data Source=LAP_EDUARDO;Initial Catalog=SALUD_VITAL2;Integrated Security=True");
 
         public SqlConnection AbrirConexion()

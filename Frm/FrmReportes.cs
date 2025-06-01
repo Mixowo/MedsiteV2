@@ -28,76 +28,72 @@ namespace MedsiteV2
         {
             try
             {
+                if (cn.State != ConnectionState.Open)
+                    cn.Open();
+
                 string query = "SELECT IdPaciente, NombreCompleto FROM Pacientes ORDER BY NombreCompleto";
-                SqlCommand cmd = new SqlCommand(query, cn);
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                SqlDataAdapter da = new SqlDataAdapter(query, cn);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
 
                 cmbPacienteReporte.DataSource = dt;
-                cmbPacienteReporte.DisplayMember = "NombreCompleto"; // Muestra nombres
-                cmbPacienteReporte.ValueMember = "IdPaciente";       // Valor interno: ID
+                cmbPacienteReporte.DisplayMember = "NombreCompleto";
+                cmbPacienteReporte.ValueMember = "IdPaciente";
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar pacientes: {ex.Message}", "Error",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar pacientes: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
         }
 
         private void btnBuscarReporte_Click(object sender, EventArgs e)
         {
             if (cmbPacienteReporte.SelectedValue == null)
             {
-                MessageBox.Show("Selecciona un paciente.", "Advertencia",
-                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Selecciona un paciente.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             int idPaciente = Convert.ToInt32(cmbPacienteReporte.SelectedValue);
-            MostrarReporte(idPaciente);
-        }
+            DateTime fechaInicio = dtpInicio.Value.Date;
+            DateTime fechaFin = dtpFin.Value.Date;
 
-        private void MostrarReporte(int idPaciente)
-        {
             try
             {
                 if (cn.State != ConnectionState.Open)
                     cn.Open();
 
-                string query = @"SELECT C.IdCita, 
-                                       M.NombreCompleto AS Médico, 
-                                       E.NombreEspecialidad AS Especialidad, 
-                                       C.FechaHora AS [Fecha y Hora],
-                                       C.Estado,
-                                       D.Descripcion AS Diagnóstico
-                                FROM Citas C
-                                JOIN Medicos M ON C.IdMedico = M.IdMedico
-                                JOIN Especialidades E ON M.IdEspecialidad = E.IdEspecialidad
-                                LEFT JOIN Diagnosticos D ON C.IdCita = D.IdCita
-                                WHERE C.IdPaciente = @IdPaciente
-                                ORDER BY C.FechaHora DESC";
+                // 1. Obtener total de citas usando la función
+                string funcion = "SELECT dbo.ContarCitasPaciente(@IdPaciente, @FechaInicio, @FechaFin)";
+                SqlCommand cmd = new SqlCommand(funcion, cn);
+                cmd.Parameters.AddWithValue("@IdPaciente", idPaciente);
+                cmd.Parameters.AddWithValue("@FechaInicio", fechaInicio);
+                cmd.Parameters.AddWithValue("@FechaFin", fechaFin);
 
-                SqlCommand cmd = new SqlCommand(query, cn);
-                cmd.Parameters.AddWithValue("@IdPaciente", idPaciente); // ¡Parámetro habilitado!
+                int total = (int)cmd.ExecuteScalar();
+                lblTotal.Text = $"Total de citas: {total}";
 
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                // 2. Mostrar detalle de citas
+                string detalle = @"SELECT C.IdCita, M.NombreCompleto AS Medico, C.FechaHora, C.Estado
+                           FROM Citas C
+                           INNER JOIN Medicos M ON C.IdMedico = M.IdMedico
+                           WHERE C.IdPaciente = @IdPaciente AND
+                                 CAST(C.FechaHora AS DATE) BETWEEN @FechaInicio AND @FechaFin
+                           ORDER BY C.FechaHora";
+
+                SqlDataAdapter da = new SqlDataAdapter(detalle, cn);
+                da.SelectCommand.Parameters.AddWithValue("@IdPaciente", idPaciente);
+                da.SelectCommand.Parameters.AddWithValue("@FechaInicio", fechaInicio);
+                da.SelectCommand.Parameters.AddWithValue("@FechaFin", fechaFin);
+
                 DataTable dt = new DataTable();
                 da.Fill(dt);
-
                 dgvReporte.DataSource = dt;
                 dgvReporte.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al generar reporte: {ex.Message}", "Error",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                if (cn.State == ConnectionState.Open)
-                    cn.Close();
+                MessageBox.Show($"Error al buscar citas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

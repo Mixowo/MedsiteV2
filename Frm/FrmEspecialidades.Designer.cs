@@ -21,6 +21,7 @@
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEspecialidades));
             this.lblEspecialidad = new System.Windows.Forms.Label();
             this.txtEspecialidad = new System.Windows.Forms.TextBox();
             this.btnGuardar = new System.Windows.Forms.Button();
@@ -32,16 +33,17 @@
             // lblEspecialidad
             // 
             this.lblEspecialidad.AutoSize = true;
+            this.lblEspecialidad.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEspecialidad.Location = new System.Drawing.Point(27, 25);
             this.lblEspecialidad.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblEspecialidad.Name = "lblEspecialidad";
-            this.lblEspecialidad.Size = new System.Drawing.Size(90, 16);
+            this.lblEspecialidad.Size = new System.Drawing.Size(95, 17);
             this.lblEspecialidad.TabIndex = 5;
             this.lblEspecialidad.Text = "Especialidad:";
             // 
             // txtEspecialidad
             // 
-            this.txtEspecialidad.Location = new System.Drawing.Point(160, 21);
+            this.txtEspecialidad.Location = new System.Drawing.Point(143, 23);
             this.txtEspecialidad.Margin = new System.Windows.Forms.Padding(4);
             this.txtEspecialidad.Name = "txtEspecialidad";
             this.txtEspecialidad.Size = new System.Drawing.Size(265, 22);
@@ -49,10 +51,11 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(160, 62);
+            this.btnGuardar.Font = new System.Drawing.Font("Arial", 9F);
+            this.btnGuardar.Location = new System.Drawing.Point(143, 62);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(4);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(100, 28);
+            this.btnGuardar.Size = new System.Drawing.Size(97, 33);
             this.btnGuardar.TabIndex = 2;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
@@ -60,10 +63,11 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(293, 62);
+            this.btnEliminar.Font = new System.Drawing.Font("Arial", 9F);
+            this.btnEliminar.Location = new System.Drawing.Point(248, 62);
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(4);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(100, 28);
+            this.btnEliminar.Size = new System.Drawing.Size(97, 33);
             this.btnEliminar.TabIndex = 3;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
@@ -95,9 +99,11 @@
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.txtEspecialidad);
             this.Controls.Add(this.lblEspecialidad);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmEspecialidades";
-            this.Text = "Gestión de Especialidades Médicas";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Especialidades";
             this.Load += new System.EventHandler(this.FrmEspecialidades_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvEspecialidades)).EndInit();
             this.ResumeLayout(false);

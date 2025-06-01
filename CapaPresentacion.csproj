@@ -212,6 +212,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Resources\pngtree-health-logo-vector-illustration-png-image_6580780.png" />
+    <None Include="Resources\Background.png" />
     <EmbeddedResource Include="Frm\FrmCitas.resx">
       <DependentUpon>FrmCitas.cs</DependentUpon>
     </EmbeddedResource>
@@ -241,6 +243,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />

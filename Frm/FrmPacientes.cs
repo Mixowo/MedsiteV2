@@ -49,7 +49,26 @@ namespace MedsiteV2
 
                 if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(genero))
                 {
-                    MessageBox.Show("Nombre y Género son obligatorios.");
+                    MessageBox.Show("Por favor complete todos los campos obligatorios.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                int resultadoValidacion = ValidarPacienteDuplicado(nombre, genero, telefono);
+
+                if (resultadoValidacion == 0) // Existe duplicado
+                {
+                    MessageBox.Show("Ya existe un paciente con estos datos registrado",
+                                  "Paciente Duplicado",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Warning);
+                    return;
+                }
+                else if (resultadoValidacion == -1) // Error
+                {
+                    MessageBox.Show("Error al verificar paciente",
+                                  "Error",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Error);
                     return;
                 }
 
@@ -57,7 +76,6 @@ namespace MedsiteV2
 
                 if (pacienteSeleccionadoId.HasValue)
                 {
-                    // Modo edición
                     query = @"UPDATE Pacientes 
                       SET NombreCompleto = @NombreCompleto, FechaNacimiento = @FechaNacimiento, 
                           Genero = @Genero, Telefono = @Telefono, Direccion = @Direccion, HistorialMedico = @HistorialMedico 
@@ -65,7 +83,6 @@ namespace MedsiteV2
                 }
                 else
                 {
-                    // Modo inserción
                     query = @"INSERT INTO Pacientes (NombreCompleto, FechaNacimiento, Genero, Telefono, Direccion, HistorialMedico) 
                       VALUES (@NombreCompleto, @FechaNacimiento, @Genero, @Telefono, @Direccion, @HistorialMedico)";
                 }
@@ -106,8 +123,38 @@ namespace MedsiteV2
             }
         }
 
+        private int ValidarPacienteDuplicado(string nombre, string genero, string telefono)
+        {
+            try
+            {
+                string query = @"
+                    SELECT COUNT(*) 
+                    FROM Pacientes 
+                    WHERE 
+                    LOWER(TRIM(NombreCompleto)) = LOWER(TRIM(@Nombre))
+                    AND LOWER(TRIM(Genero)) = LOWER(TRIM(@Genero))
+                    AND TRIM(Telefono) = TRIM(@Telefono)";
+
+                using (SqlCommand cmd = new SqlCommand(query, cn))
+                {
+                    cmd.Parameters.AddWithValue("@Nombre", nombre);
+                    cmd.Parameters.AddWithValue("@Genero", genero);
+                    cmd.Parameters.AddWithValue("@Telefono", telefono);
+
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    return count > 0 ? 0 : 1; // 0 = existe, 1 = no existe
+                }
+            }
+            catch
+            {
+                return -1; // Error en la consulta
+            }
+        }
+
+
         private void LimpiarCampos()
         {
+            dtpFechaNacimiento.Enabled = true;
             txtNombre.Clear();
             txtTelefono.Clear();
             txtDireccion.Clear();
@@ -115,26 +162,6 @@ namespace MedsiteV2
             cmbGenero.SelectedIndex = -1;
             dtpFechaNacimiento.Value = DateTime.Now;
             pacienteSeleccionadoId = null;
-        }
-
-        private void FrmPacientes_Load(object sender, EventArgs e)
-        {
-            dgvPacientes.CellClick += dgvPacientes_CellClick;
-        }
-
-        private void btnGuardar_Click_1(object sender, EventArgs e)
-        {
-            AgregarPaciente();
-        }
-
-        private void btnLimpiar_Click(object sender, EventArgs e)
-        {
-            LimpiarCampos();
-        }
-
-        private void dgvPacientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
 
         private void dgvPacientes_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -149,6 +176,7 @@ namespace MedsiteV2
                 txtTelefono.Text = row.Cells["Telefono"].Value.ToString();
                 txtDireccion.Text = row.Cells["Direccion"].Value.ToString();
                 txtHistorial.Text = row.Cells["HistorialMedico"].Value.ToString();
+                dtpFechaNacimiento.Enabled = false;
             }
         }
 
@@ -194,6 +222,42 @@ namespace MedsiteV2
                     conexion.CerrarConexion();
                 }
             }
+        }
+
+        private void txtTelefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            
+
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '\b' && e.KeyChar != (char)127)
+            {
+                e.Handled = true; // Bloquear el carácter
+            }
+        }
+
+        private void txtTelefono_TextChanged(object sender, EventArgs e)
+        {
+            txtTelefono.Text = new string(txtTelefono.Text.Where(c => char.IsDigit(c)).ToArray());
+            txtTelefono.SelectionStart = txtTelefono.Text.Length; // Mover cursor al final
+        }
+
+        private void FrmPacientes_Load(object sender, EventArgs e)
+        {
+            dgvPacientes.CellClick += dgvPacientes_CellClick;
+        }
+
+        private void btnGuardar_Click_1(object sender, EventArgs e)
+        {
+            AgregarPaciente();
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            LimpiarCampos();
+        }
+
+        private void dgvPacientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

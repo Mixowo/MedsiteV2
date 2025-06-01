@@ -14,6 +14,7 @@
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDiagnostico));
             this.lblCita = new System.Windows.Forms.Label();
             this.cmbCita = new System.Windows.Forms.ComboBox();
             this.lblDiagnostico = new System.Windows.Forms.Label();
@@ -27,6 +28,7 @@
             // 
             // lblCita
             // 
+            this.lblCita.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCita.Location = new System.Drawing.Point(20, 20);
             this.lblCita.Name = "lblCita";
             this.lblCita.Size = new System.Drawing.Size(100, 23);
@@ -43,6 +45,7 @@
             // 
             // lblDiagnostico
             // 
+            this.lblDiagnostico.Font = new System.Drawing.Font("Arial", 9F);
             this.lblDiagnostico.Location = new System.Drawing.Point(20, 60);
             this.lblDiagnostico.Name = "lblDiagnostico";
             this.lblDiagnostico.Size = new System.Drawing.Size(100, 23);
@@ -58,6 +61,7 @@
             // 
             // lblReceta
             // 
+            this.lblReceta.Font = new System.Drawing.Font("Arial", 9F);
             this.lblReceta.Location = new System.Drawing.Point(20, 100);
             this.lblReceta.Name = "lblReceta";
             this.lblReceta.Size = new System.Drawing.Size(100, 23);
@@ -73,9 +77,10 @@
             // 
             // btnGuardar
             // 
+            this.btnGuardar.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.Location = new System.Drawing.Point(120, 140);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardar.Size = new System.Drawing.Size(97, 33);
             this.btnGuardar.TabIndex = 6;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
@@ -84,7 +89,7 @@
             // 
             this.dgvDiagnosticos.AllowUserToAddRows = false;
             this.dgvDiagnosticos.ColumnHeadersHeight = 29;
-            this.dgvDiagnosticos.Location = new System.Drawing.Point(20, 190);
+            this.dgvDiagnosticos.Location = new System.Drawing.Point(25, 190);
             this.dgvDiagnosticos.Name = "dgvDiagnosticos";
             this.dgvDiagnosticos.RowHeadersWidth = 51;
             this.dgvDiagnosticos.Size = new System.Drawing.Size(600, 200);
@@ -101,8 +106,10 @@
             this.Controls.Add(this.txtReceta);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.dgvDiagnosticos);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmDiagnostico";
-            this.Text = "Diagnóstico Médico";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Diagnostico";
             ((System.ComponentModel.ISupportInitialize)(this.dgvDiagnosticos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

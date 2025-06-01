@@ -46,15 +46,36 @@ namespace MedsiteV2
             }
         }
 
-        private void FrmMedicos_Load(object sender, EventArgs e)
-        {
-            
-        }
-
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             try
             {
+                // Obtener valores
+                string nombre = txtNombre.Text.Trim();
+                int idEspecialidad = Convert.ToInt32(cmbEspecialidad.SelectedValue);
+                string telefono = txtTelefono.Text.Trim();
+                string correo = txtCorreo.Text.Trim();
+
+                // Validar duplicados
+                int resultadoValidacion = ValidarMedicoDuplicado(nombre, idEspecialidad, telefono, correo);
+
+                if (resultadoValidacion == 0) // Existe duplicado
+                {
+                    MessageBox.Show("Ya existe un médico con estos datos registrado",
+                                  "Médico Duplicado",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Warning);
+                    return;
+                }
+                else if (resultadoValidacion == -1) // Error
+                {
+                    MessageBox.Show("Error al verificar médico",
+                                  "Error",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Error);
+                    return;
+                }
+
                 if (string.IsNullOrWhiteSpace(txtNombre.Text) || cmbEspecialidad.SelectedIndex == -1 || cmbDisponible.SelectedIndex == -1)
                 {
                     MessageBox.Show("Por favor complete todos los campos obligatorios.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -63,7 +84,6 @@ namespace MedsiteV2
 
                 if (medicoSeleccionadoId.HasValue)
                 {
-                    // Actualizar
                     string query = @"UPDATE Medicos SET 
                              NombreCompleto = @Nombre, 
                              IdEspecialidad = @IdEspecialidad, 
@@ -85,7 +105,6 @@ namespace MedsiteV2
                 }
                 else
                 {
-                    // Insertar nuevo
                     string query = @"INSERT INTO Medicos 
                              (NombreCompleto, IdEspecialidad, Telefono, CorreoElectronico, Disponible) 
                              VALUES 
@@ -112,6 +131,36 @@ namespace MedsiteV2
             }
         }
 
+        private int ValidarMedicoDuplicado(string nombre, int idEspecialidad, string telefono, string correo)
+        {
+            try
+            {
+                string query = @"
+                SELECT COUNT(*) 
+                FROM Medicos 
+                WHERE 
+                LOWER(TRIM(NombreCompleto)) = LOWER(TRIM(@Nombre))
+                AND IdEspecialidad = @IdEspecialidad
+                AND TRIM(Telefono) = TRIM(@Telefono)
+                AND TRIM(CorreoElectronico) = TRIM(@Correo)";
+
+                using (SqlCommand cmd = new SqlCommand(query, cn))
+                {
+                    cmd.Parameters.AddWithValue("@Nombre", nombre);
+                    cmd.Parameters.AddWithValue("@IdEspecialidad", idEspecialidad);
+                    cmd.Parameters.AddWithValue("@Telefono", telefono);
+                    cmd.Parameters.AddWithValue("@Correo", correo);
+
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    return count > 0 ? 0 : 1; // 0 = existe, 1 = no existe
+                }
+            }
+            catch
+            {
+                return -1; // Error en la consulta
+            }
+        }
+
         private void MostrarMedicos()
         {
             string query = "SELECT m.IdMedico, m.NombreCompleto AS Nombre, m.Telefono, m.CorreoElectronico AS Correo, " +
@@ -131,6 +180,7 @@ namespace MedsiteV2
             txtCorreo.Clear();
             cmbEspecialidad.SelectedIndex = -1;
             cmbDisponible.SelectedIndex = -1;
+            medicoSeleccionadoId = null;
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -184,6 +234,11 @@ namespace MedsiteV2
                     MessageBox.Show("Error al eliminar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void FrmMedicos_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

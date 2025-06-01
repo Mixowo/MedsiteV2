@@ -16,13 +16,6 @@ namespace MedsiteV2
         {
             InitializeComponent();
 
-            // Asociar eventos a los botones
-            btnPacientes.Click += BtnPacientes_Click;
-            btnMedicos.Click += BtnMedicos_Click;
-            btnEspecialidades.Click += BtnEspecialidades_Click;
-            btnCitas.Click += BtnCitas_Click;
-            btnDiagnosticos.Click += BtnDiagnosticos_Click;
-            btnReportes.Click += BtnReportes_Click;
         }
 
         private void BtnPacientes_Click(object sender, EventArgs e)
@@ -59,6 +52,47 @@ namespace MedsiteV2
         {
             FrmReportes frm = new FrmReportes();
             frm.ShowDialog();
+        }
+
+        private void menupacientes_Click(object sender, EventArgs e)
+        {
+            FrmPacientes frm = new FrmPacientes();
+            frm.ShowDialog();
+        }
+
+        private void menumedicos_Click(object sender, EventArgs e)
+        {
+            FrmMedicos frm = new FrmMedicos();
+            frm.ShowDialog();
+        }
+
+        private void menuespecialidades_Click(object sender, EventArgs e)
+        {
+            FrmEspecialidades frm = new FrmEspecialidades();
+            frm.ShowDialog();
+        }
+
+        private void menucitas_Click(object sender, EventArgs e)
+        {
+            FrmCitas frm = new FrmCitas();
+            frm.ShowDialog();
+        }
+
+        private void menudiagnostico_Click(object sender, EventArgs e)
+        {
+            FrmDiagnostico frm = new FrmDiagnostico();
+            frm.ShowDialog();
+        }
+
+        private void menureportes_Click(object sender, EventArgs e)
+        {
+            FrmReportes frm = new FrmReportes();
+            frm.ShowDialog();
+        }
+
+        private void FrmMostrar_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

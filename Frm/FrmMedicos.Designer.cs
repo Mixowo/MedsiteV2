@@ -18,6 +18,7 @@
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMedicos));
             this.lblNombre = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lblEspecialidad = new System.Windows.Forms.Label();
@@ -37,6 +38,7 @@
             // 
             // lblNombre
             // 
+            this.lblNombre.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNombre.Location = new System.Drawing.Point(20, 20);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(100, 23);
@@ -47,11 +49,12 @@
             // 
             this.txtNombre.Location = new System.Drawing.Point(150, 20);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(100, 22);
+            this.txtNombre.Size = new System.Drawing.Size(266, 22);
             this.txtNombre.TabIndex = 1;
             // 
             // lblEspecialidad
             // 
+            this.lblEspecialidad.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEspecialidad.Location = new System.Drawing.Point(20, 60);
             this.lblEspecialidad.Name = "lblEspecialidad";
             this.lblEspecialidad.Size = new System.Drawing.Size(100, 23);
@@ -68,6 +71,7 @@
             // 
             // lblTelefono
             // 
+            this.lblTelefono.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTelefono.Location = new System.Drawing.Point(20, 100);
             this.lblTelefono.Name = "lblTelefono";
             this.lblTelefono.Size = new System.Drawing.Size(100, 23);
@@ -78,11 +82,12 @@
             // 
             this.txtTelefono.Location = new System.Drawing.Point(150, 100);
             this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(100, 22);
+            this.txtTelefono.Size = new System.Drawing.Size(266, 22);
             this.txtTelefono.TabIndex = 5;
             // 
             // lblCorreo
             // 
+            this.lblCorreo.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCorreo.Location = new System.Drawing.Point(20, 140);
             this.lblCorreo.Name = "lblCorreo";
             this.lblCorreo.Size = new System.Drawing.Size(100, 23);
@@ -93,11 +98,12 @@
             // 
             this.txtCorreo.Location = new System.Drawing.Point(150, 140);
             this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(100, 22);
+            this.txtCorreo.Size = new System.Drawing.Size(266, 22);
             this.txtCorreo.TabIndex = 7;
             // 
             // lblDisponible
             // 
+            this.lblDisponible.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDisponible.Location = new System.Drawing.Point(20, 180);
             this.lblDisponible.Name = "lblDisponible";
             this.lblDisponible.Size = new System.Drawing.Size(100, 23);
@@ -117,9 +123,10 @@
             // 
             // btnGuardar
             // 
+            this.btnGuardar.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.Location = new System.Drawing.Point(150, 220);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardar.Size = new System.Drawing.Size(97, 33);
             this.btnGuardar.TabIndex = 10;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
@@ -137,19 +144,21 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(231, 220);
+            this.btnLimpiar.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLimpiar.Location = new System.Drawing.Point(253, 220);
             this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.btnLimpiar.Size = new System.Drawing.Size(97, 33);
             this.btnLimpiar.TabIndex = 14;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(313, 220);
+            this.btnEliminar.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminar.Location = new System.Drawing.Point(357, 220);
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(4);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(74, 23);
+            this.btnEliminar.Size = new System.Drawing.Size(97, 33);
             this.btnEliminar.TabIndex = 15;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
@@ -172,8 +181,10 @@
             this.Controls.Add(this.cmbDisponible);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.dgvMedicos);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmMedicos";
-            this.Text = "Gestión de Médicos";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Médicos";
             this.Load += new System.EventHandler(this.FrmMedicos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMedicos)).EndInit();
             this.ResumeLayout(false);

@@ -50,6 +50,18 @@ namespace MedsiteV2
             cmbMedico.ValueMember = "IdMedico";
         }
 
+        private void CargarPacientes()
+        {
+            string query = "SELECT IdPaciente, NombreCompleto FROM Pacientes";
+            SqlDataAdapter da = new SqlDataAdapter(query, cn);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            cmbPaciente.DataSource = dt;
+            cmbPaciente.DisplayMember = "NombreCompleto";
+            cmbPaciente.ValueMember = "IdPaciente";
+        }
+
         private void ConfigurarEstadoCita(bool nueva)
         {
             cmbEstado.Items.Clear();
@@ -85,6 +97,7 @@ namespace MedsiteV2
             ConfigurarEstadoCita(nueva: true);
             citaSeleccionadaId = null;
             medicoSeleccionadoId = null;
+            CargarMedicos();
         }
 
         private void btnAgendar_Click(object sender, EventArgs e)
@@ -184,16 +197,6 @@ namespace MedsiteV2
 
         }
 
-        private void CargarPacientes()
-        {
-            string query = "SELECT IdPaciente, NombreCompleto FROM Pacientes";
-            SqlDataAdapter da = new SqlDataAdapter(query, cn);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-
-            cmbPaciente.DataSource = dt;
-            cmbPaciente.DisplayMember = "NombreCompleto";
-            cmbPaciente.ValueMember = "IdPaciente";
-        }
+        
     }
 }
