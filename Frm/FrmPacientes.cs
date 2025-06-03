@@ -53,9 +53,9 @@ namespace MedsiteV2
                     return;
                 }
 
-                int resultadoValidacion = ValidarPacienteDuplicado(nombre, genero, telefono);
+                int resultadoValidacion = ValidarPacienteDuplicado(nombre, historial, genero, telefono);
 
-                if (resultadoValidacion == 0) // Existe duplicado
+                if (resultadoValidacion == 0)
                 {
                     MessageBox.Show("Ya existe un paciente con estos datos registrado",
                                   "Paciente Duplicado",
@@ -63,7 +63,7 @@ namespace MedsiteV2
                                   MessageBoxIcon.Warning);
                     return;
                 }
-                else if (resultadoValidacion == -1) // Error
+                else if (resultadoValidacion == -1) 
                 {
                     MessageBox.Show("Error al verificar paciente",
                                   "Error",
@@ -123,7 +123,7 @@ namespace MedsiteV2
             }
         }
 
-        private int ValidarPacienteDuplicado(string nombre, string genero, string telefono)
+        private int ValidarPacienteDuplicado(string nombre, string historial, string genero, string telefono)
         {
             try
             {
@@ -132,6 +132,7 @@ namespace MedsiteV2
                     FROM Pacientes 
                     WHERE 
                     LOWER(TRIM(NombreCompleto)) = LOWER(TRIM(@Nombre))
+                    AND LOWER(TRIM(HistorialMedico)) = LOWER(TRIM(@HistorialMedico))
                     AND LOWER(TRIM(Genero)) = LOWER(TRIM(@Genero))
                     AND TRIM(Telefono) = TRIM(@Telefono)";
 
@@ -139,15 +140,16 @@ namespace MedsiteV2
                 {
                     cmd.Parameters.AddWithValue("@Nombre", nombre);
                     cmd.Parameters.AddWithValue("@Genero", genero);
+                    cmd.Parameters.AddWithValue("@HistorialMedico", historial);
                     cmd.Parameters.AddWithValue("@Telefono", telefono);
 
                     int count = Convert.ToInt32(cmd.ExecuteScalar());
-                    return count > 0 ? 0 : 1; // 0 = existe, 1 = no existe
+                    return count > 0 ? 0 : 1; 
                 }
             }
             catch
             {
-                return -1; // Error en la consulta
+                return -1; 
             }
         }
 
@@ -230,14 +232,14 @@ namespace MedsiteV2
 
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != '\b' && e.KeyChar != (char)127)
             {
-                e.Handled = true; // Bloquear el carácter
+                e.Handled = true;
             }
         }
 
         private void txtTelefono_TextChanged(object sender, EventArgs e)
         {
             txtTelefono.Text = new string(txtTelefono.Text.Where(c => char.IsDigit(c)).ToArray());
-            txtTelefono.SelectionStart = txtTelefono.Text.Length; // Mover cursor al final
+            txtTelefono.SelectionStart = txtTelefono.Text.Length;
         }
 
         private void FrmPacientes_Load(object sender, EventArgs e)
@@ -256,6 +258,11 @@ namespace MedsiteV2
         }
 
         private void dgvPacientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dtpFechaNacimiento_ValueChanged(object sender, EventArgs e)
         {
 
         }

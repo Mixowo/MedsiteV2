@@ -50,16 +50,15 @@ namespace MedsiteV2
         {
             try
             {
-                // Obtener valores
                 string nombre = txtNombre.Text.Trim();
                 int idEspecialidad = Convert.ToInt32(cmbEspecialidad.SelectedValue);
                 string telefono = txtTelefono.Text.Trim();
                 string correo = txtCorreo.Text.Trim();
+                bool disponible = cmbDisponible.SelectedItem.ToString() == "Sí";
 
-                // Validar duplicados
-                int resultadoValidacion = ValidarMedicoDuplicado(nombre, idEspecialidad, telefono, correo);
+                int resultadoValidacion = ValidarMedicoDuplicado(nombre, idEspecialidad, telefono, correo, disponible);
 
-                if (resultadoValidacion == 0) // Existe duplicado
+                if (resultadoValidacion == 0)
                 {
                     MessageBox.Show("Ya existe un médico con estos datos registrado",
                                   "Médico Duplicado",
@@ -67,7 +66,7 @@ namespace MedsiteV2
                                   MessageBoxIcon.Warning);
                     return;
                 }
-                else if (resultadoValidacion == -1) // Error
+                else if (resultadoValidacion == -1)
                 {
                     MessageBox.Show("Error al verificar médico",
                                   "Error",
@@ -131,33 +130,35 @@ namespace MedsiteV2
             }
         }
 
-        private int ValidarMedicoDuplicado(string nombre, int idEspecialidad, string telefono, string correo)
+        private int ValidarMedicoDuplicado(string nombre, int idEspecialidad, string telefono, string correo, bool disponible)
         {
             try
             {
                 string query = @"
-                SELECT COUNT(*) 
-                FROM Medicos 
-                WHERE 
-                LOWER(TRIM(NombreCompleto)) = LOWER(TRIM(@Nombre))
-                AND IdEspecialidad = @IdEspecialidad
-                AND TRIM(Telefono) = TRIM(@Telefono)
-                AND TRIM(CorreoElectronico) = TRIM(@Correo)";
+            SELECT COUNT(*) 
+            FROM Medicos 
+            WHERE 
+            LOWER(TRIM(NombreCompleto)) = LOWER(TRIM(@Nombre))
+            AND IdEspecialidad = @IdEspecialidad
+            AND TRIM(Telefono) = TRIM(@Telefono)
+            AND TRIM(CorreoElectronico) = TRIM(@Correo)
+            AND Disponible = @Disponible";
 
                 using (SqlCommand cmd = new SqlCommand(query, cn))
                 {
-                    cmd.Parameters.AddWithValue("@Nombre", nombre);
+                    cmd.Parameters.AddWithValue("@Nombre", nombre.Trim().ToLower());
                     cmd.Parameters.AddWithValue("@IdEspecialidad", idEspecialidad);
-                    cmd.Parameters.AddWithValue("@Telefono", telefono);
-                    cmd.Parameters.AddWithValue("@Correo", correo);
+                    cmd.Parameters.AddWithValue("@Telefono", telefono.Trim());
+                    cmd.Parameters.AddWithValue("@Correo", correo.Trim());
+                    cmd.Parameters.AddWithValue("@Disponible", disponible);
 
                     int count = Convert.ToInt32(cmd.ExecuteScalar());
-                    return count > 0 ? 0 : 1; // 0 = existe, 1 = no existe
+                    return count > 0 ? 0 : 1;
                 }
             }
             catch
             {
-                return -1; // Error en la consulta
+                return -1;
             }
         }
 
@@ -239,6 +240,22 @@ namespace MedsiteV2
         private void FrmMedicos_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void txtTelefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '\b' && e.KeyChar != (char)127)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtTelefono_TextChanged(object sender, EventArgs e)
+        {
+            txtTelefono.Text = new string(txtTelefono.Text.Where(c => char.IsDigit(c)).ToArray());
+            txtTelefono.SelectionStart = txtTelefono.Text.Length;
         }
     }
 }

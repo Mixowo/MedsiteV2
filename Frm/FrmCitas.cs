@@ -86,7 +86,7 @@ namespace MedsiteV2
             dgvCitas.DataSource = dt;
 
             dgvCitas.Columns["IdMedico"].Visible = false;
-            dgvCitas.Columns["IdPaciente"].Visible = false; // Ocultar IdPaciente en el grid, pero lo necesitamos para seleccionar paciente
+            dgvCitas.Columns["IdPaciente"].Visible = false;
         }
 
         private void LimpiarCampos()
@@ -153,17 +153,81 @@ namespace MedsiteV2
                 dtpFechaHora.Value = Convert.ToDateTime(fila.Cells["FechaHora"].Value);
 
                 int idMedico = Convert.ToInt32(fila.Cells["IdMedico"].Value);
-                CargarMedicos(idMedico); // Mostrar aunque esté no disponible
+                CargarMedicos(idMedico); 
                 cmbMedico.SelectedValue = idMedico;
 
-                // Aquí asignamos el paciente seleccionado:
                 int idPaciente = Convert.ToInt32(fila.Cells["IdPaciente"].Value);
                 cmbPaciente.SelectedValue = idPaciente;
 
                 cmbEstado.Text = fila.Cells["Estado"].Value.ToString();
 
-                ConfigurarEstadoCita(nueva: false); // Mostrar "Cancelada"
+                ConfigurarEstadoCita(nueva: false);
                 cmbMedico.Enabled = false;
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (!citaSeleccionadaId.HasValue)
+            {
+                MessageBox.Show("Seleccione una cita para eliminar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult confirmacion = MessageBox.Show("¿Está seguro de eliminar esta cita?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirmacion == DialogResult.No)
+                return;
+
+            try
+            {
+          
+                int idMedico = -1;
+                string consultaMedico = "SELECT IdMedico FROM Citas WHERE IdCita = @IdCita";
+                using (SqlCommand cmdMedico = new SqlCommand(consultaMedico, cn))
+                {
+                    cmdMedico.Parameters.AddWithValue("@IdCita", citaSeleccionadaId.Value);
+                    object resultado = cmdMedico.ExecuteScalar();
+                    if (resultado != null)
+                    {
+                        idMedico = Convert.ToInt32(resultado);
+                    }
+                }
+
+                string queryEliminar = "DELETE FROM Citas WHERE IdCita = @IdCita";
+                using (SqlCommand cmd = new SqlCommand(queryEliminar, cn))
+                {
+                    cmd.Parameters.AddWithValue("@IdCita", citaSeleccionadaId.Value);
+                    cmd.ExecuteNonQuery();
+                }
+
+                string verificarOtrasCitas = @"
+            SELECT COUNT(*) 
+            FROM Citas 
+            WHERE IdMedico = @IdMedico AND Estado IN ('Pendiente', 'Confirmada')";
+
+                using (SqlCommand cmdVerificar = new SqlCommand(verificarOtrasCitas, cn))
+                {
+                    cmdVerificar.Parameters.AddWithValue("@IdMedico", idMedico);
+                    int cantidad = (int)cmdVerificar.ExecuteScalar();
+
+                    if (cantidad == 0)
+                    {
+                        string actualizarMedico = "UPDATE Medicos SET Disponible = 1 WHERE IdMedico = @IdMedico";
+                        using (SqlCommand cmdActualizar = new SqlCommand(actualizarMedico, cn))
+                        {
+                            cmdActualizar.Parameters.AddWithValue("@IdMedico", idMedico);
+                            cmdActualizar.ExecuteNonQuery();
+                        }
+                    }
+                }
+
+                MessageBox.Show("Cita eliminada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MostrarCitas();
+                LimpiarCampos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al eliminar la cita: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -31,9 +31,9 @@
             // lblPacienteReporte
             // 
             this.lblPacienteReporte.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPacienteReporte.Location = new System.Drawing.Point(17, 22);
+            this.lblPacienteReporte.Location = new System.Drawing.Point(43, 21);
             this.lblPacienteReporte.Name = "lblPacienteReporte";
-            this.lblPacienteReporte.Size = new System.Drawing.Size(100, 23);
+            this.lblPacienteReporte.Size = new System.Drawing.Size(74, 23);
             this.lblPacienteReporte.TabIndex = 0;
             this.lblPacienteReporte.Text = "Paciente";
             // 
@@ -47,9 +47,10 @@
             // btnBuscarReporte
             // 
             this.btnBuscarReporte.Font = new System.Drawing.Font("Arial", 9F);
-            this.btnBuscarReporte.Location = new System.Drawing.Point(20, 55);
+            this.btnBuscarReporte.ForeColor = System.Drawing.Color.SteelBlue;
+            this.btnBuscarReporte.Location = new System.Drawing.Point(123, 52);
             this.btnBuscarReporte.Name = "btnBuscarReporte";
-            this.btnBuscarReporte.Size = new System.Drawing.Size(97, 33);
+            this.btnBuscarReporte.Size = new System.Drawing.Size(180, 25);
             this.btnBuscarReporte.TabIndex = 6;
             this.btnBuscarReporte.Text = "Buscar";
             this.btnBuscarReporte.Click += new System.EventHandler(this.btnBuscarReporte_Click);
@@ -57,11 +58,12 @@
             // dgvReporte
             // 
             this.dgvReporte.AllowUserToAddRows = false;
+            this.dgvReporte.BackgroundColor = System.Drawing.SystemColors.ControlLight;
             this.dgvReporte.ColumnHeadersHeight = 29;
-            this.dgvReporte.Location = new System.Drawing.Point(22, 100);
+            this.dgvReporte.Location = new System.Drawing.Point(22, 88);
             this.dgvReporte.Name = "dgvReporte";
             this.dgvReporte.RowHeadersWidth = 51;
-            this.dgvReporte.Size = new System.Drawing.Size(605, 280);
+            this.dgvReporte.Size = new System.Drawing.Size(605, 297);
             this.dgvReporte.TabIndex = 7;
             // 
             // lblInicio

@@ -47,15 +47,15 @@
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(150, 20);
+            this.txtNombre.Location = new System.Drawing.Point(23, 46);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(266, 22);
+            this.txtNombre.Size = new System.Drawing.Size(300, 22);
             this.txtNombre.TabIndex = 1;
             // 
             // lblEspecialidad
             // 
             this.lblEspecialidad.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEspecialidad.Location = new System.Drawing.Point(20, 60);
+            this.lblEspecialidad.Location = new System.Drawing.Point(20, 82);
             this.lblEspecialidad.Name = "lblEspecialidad";
             this.lblEspecialidad.Size = new System.Drawing.Size(100, 23);
             this.lblEspecialidad.TabIndex = 2;
@@ -64,15 +64,15 @@
             // cmbEspecialidad
             // 
             this.cmbEspecialidad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbEspecialidad.Location = new System.Drawing.Point(150, 60);
+            this.cmbEspecialidad.Location = new System.Drawing.Point(23, 108);
             this.cmbEspecialidad.Name = "cmbEspecialidad";
-            this.cmbEspecialidad.Size = new System.Drawing.Size(121, 24);
+            this.cmbEspecialidad.Size = new System.Drawing.Size(300, 24);
             this.cmbEspecialidad.TabIndex = 3;
             // 
             // lblTelefono
             // 
             this.lblTelefono.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTelefono.Location = new System.Drawing.Point(20, 100);
+            this.lblTelefono.Location = new System.Drawing.Point(20, 147);
             this.lblTelefono.Name = "lblTelefono";
             this.lblTelefono.Size = new System.Drawing.Size(100, 23);
             this.lblTelefono.TabIndex = 4;
@@ -80,15 +80,18 @@
             // 
             // txtTelefono
             // 
-            this.txtTelefono.Location = new System.Drawing.Point(150, 100);
+            this.txtTelefono.Location = new System.Drawing.Point(23, 173);
+            this.txtTelefono.MaxLength = 12;
             this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(266, 22);
+            this.txtTelefono.Size = new System.Drawing.Size(300, 22);
             this.txtTelefono.TabIndex = 5;
+            this.txtTelefono.TextChanged += new System.EventHandler(this.txtTelefono_TextChanged);
+            this.txtTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTelefono_KeyPress);
             // 
             // lblCorreo
             // 
             this.lblCorreo.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCorreo.Location = new System.Drawing.Point(20, 140);
+            this.lblCorreo.Location = new System.Drawing.Point(20, 210);
             this.lblCorreo.Name = "lblCorreo";
             this.lblCorreo.Size = new System.Drawing.Size(100, 23);
             this.lblCorreo.TabIndex = 6;
@@ -96,15 +99,15 @@
             // 
             // txtCorreo
             // 
-            this.txtCorreo.Location = new System.Drawing.Point(150, 140);
+            this.txtCorreo.Location = new System.Drawing.Point(23, 236);
             this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(266, 22);
+            this.txtCorreo.Size = new System.Drawing.Size(300, 22);
             this.txtCorreo.TabIndex = 7;
             // 
             // lblDisponible
             // 
             this.lblDisponible.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDisponible.Location = new System.Drawing.Point(20, 180);
+            this.lblDisponible.Location = new System.Drawing.Point(20, 274);
             this.lblDisponible.Name = "lblDisponible";
             this.lblDisponible.Size = new System.Drawing.Size(100, 23);
             this.lblDisponible.TabIndex = 8;
@@ -116,17 +119,18 @@
             this.cmbDisponible.Items.AddRange(new object[] {
             "Sí",
             "No"});
-            this.cmbDisponible.Location = new System.Drawing.Point(150, 180);
+            this.cmbDisponible.Location = new System.Drawing.Point(23, 310);
             this.cmbDisponible.Name = "cmbDisponible";
-            this.cmbDisponible.Size = new System.Drawing.Size(121, 24);
+            this.cmbDisponible.Size = new System.Drawing.Size(300, 24);
             this.cmbDisponible.TabIndex = 9;
             // 
             // btnGuardar
             // 
             this.btnGuardar.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGuardar.Location = new System.Drawing.Point(150, 220);
+            this.btnGuardar.ForeColor = System.Drawing.Color.SteelBlue;
+            this.btnGuardar.Location = new System.Drawing.Point(22, 354);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(97, 33);
+            this.btnGuardar.Size = new System.Drawing.Size(301, 33);
             this.btnGuardar.TabIndex = 10;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
@@ -134,20 +138,22 @@
             // dgvMedicos
             // 
             this.dgvMedicos.AllowUserToAddRows = false;
+            this.dgvMedicos.BackgroundColor = System.Drawing.SystemColors.ControlLight;
             this.dgvMedicos.ColumnHeadersHeight = 29;
-            this.dgvMedicos.Location = new System.Drawing.Point(20, 270);
+            this.dgvMedicos.Location = new System.Drawing.Point(369, 12);
             this.dgvMedicos.Name = "dgvMedicos";
             this.dgvMedicos.RowHeadersWidth = 51;
-            this.dgvMedicos.Size = new System.Drawing.Size(600, 200);
+            this.dgvMedicos.Size = new System.Drawing.Size(653, 546);
             this.dgvMedicos.TabIndex = 11;
             this.dgvMedicos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMedicos_CellClick);
             // 
             // btnLimpiar
             // 
             this.btnLimpiar.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLimpiar.Location = new System.Drawing.Point(253, 220);
+            this.btnLimpiar.ForeColor = System.Drawing.Color.PowderBlue;
+            this.btnLimpiar.Location = new System.Drawing.Point(23, 393);
             this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(97, 33);
+            this.btnLimpiar.Size = new System.Drawing.Size(300, 33);
             this.btnLimpiar.TabIndex = 14;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
@@ -155,10 +161,11 @@
             // btnEliminar
             // 
             this.btnEliminar.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEliminar.Location = new System.Drawing.Point(357, 220);
+            this.btnEliminar.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.btnEliminar.Location = new System.Drawing.Point(23, 433);
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(4);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(97, 33);
+            this.btnEliminar.Size = new System.Drawing.Size(300, 33);
             this.btnEliminar.TabIndex = 15;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
@@ -166,7 +173,7 @@
             // 
             // FrmMedicos
             // 
-            this.ClientSize = new System.Drawing.Size(650, 500);
+            this.ClientSize = new System.Drawing.Size(1039, 570);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.lblNombre);

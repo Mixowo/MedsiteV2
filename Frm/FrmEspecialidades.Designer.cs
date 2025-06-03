@@ -52,10 +52,11 @@
             // btnGuardar
             // 
             this.btnGuardar.Font = new System.Drawing.Font("Arial", 9F);
-            this.btnGuardar.Location = new System.Drawing.Point(143, 62);
+            this.btnGuardar.ForeColor = System.Drawing.Color.SteelBlue;
+            this.btnGuardar.Location = new System.Drawing.Point(143, 56);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(4);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(97, 33);
+            this.btnGuardar.Size = new System.Drawing.Size(129, 33);
             this.btnGuardar.TabIndex = 2;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
@@ -64,10 +65,11 @@
             // btnEliminar
             // 
             this.btnEliminar.Font = new System.Drawing.Font("Arial", 9F);
-            this.btnEliminar.Location = new System.Drawing.Point(248, 62);
+            this.btnEliminar.ForeColor = System.Drawing.Color.DarkBlue;
+            this.btnEliminar.Location = new System.Drawing.Point(280, 56);
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(4);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(97, 33);
+            this.btnEliminar.Size = new System.Drawing.Size(128, 33);
             this.btnEliminar.TabIndex = 3;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
@@ -77,6 +79,7 @@
             // 
             this.dgvEspecialidades.AllowUserToAddRows = false;
             this.dgvEspecialidades.AllowUserToDeleteRows = false;
+            this.dgvEspecialidades.BackgroundColor = System.Drawing.SystemColors.ControlLight;
             this.dgvEspecialidades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvEspecialidades.Location = new System.Drawing.Point(27, 111);
             this.dgvEspecialidades.Margin = new System.Windows.Forms.Padding(4);
@@ -84,7 +87,7 @@
             this.dgvEspecialidades.ReadOnly = true;
             this.dgvEspecialidades.RowHeadersWidth = 51;
             this.dgvEspecialidades.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvEspecialidades.Size = new System.Drawing.Size(533, 246);
+            this.dgvEspecialidades.Size = new System.Drawing.Size(549, 270);
             this.dgvEspecialidades.TabIndex = 4;
             this.dgvEspecialidades.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEspecialidades_CellClick);
             this.dgvEspecialidades.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEspecialidades_CellContentClick);

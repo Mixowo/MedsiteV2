@@ -21,7 +21,7 @@ namespace MedsiteV2
         {
             InitializeComponent();
             cn = conexion.AbrirConexion();
-            CargarPacientes(); // Llena el ComboBox al iniciar
+            CargarPacientes();
         }
 
         private void CargarPacientes()
@@ -63,7 +63,6 @@ namespace MedsiteV2
                 if (cn.State != ConnectionState.Open)
                     cn.Open();
 
-                // 1. Obtener total de citas usando la función
                 string funcion = "SELECT dbo.ContarCitasPaciente(@IdPaciente, @FechaInicio, @FechaFin)";
                 SqlCommand cmd = new SqlCommand(funcion, cn);
                 cmd.Parameters.AddWithValue("@IdPaciente", idPaciente);
@@ -73,7 +72,6 @@ namespace MedsiteV2
                 int total = (int)cmd.ExecuteScalar();
                 lblTotal.Text = $"Total de citas: {total}";
 
-                // 2. Mostrar detalle de citas
                 string detalle = @"SELECT C.IdCita, M.NombreCompleto AS Medico, C.FechaHora, C.Estado
                            FROM Citas C
                            INNER JOIN Medicos M ON C.IdMedico = M.IdMedico

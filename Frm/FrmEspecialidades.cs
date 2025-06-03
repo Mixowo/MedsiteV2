@@ -88,7 +88,6 @@ namespace MedsiteV2
             {
                 conexion.AbrirConexion();
 
-                // Verificar si ya existe otra especialidad con ese nombre (ignorando mayúsculas/minúsculas)
                 SqlCommand verificar = new SqlCommand("SELECT COUNT(*) FROM Especialidades WHERE LOWER(NombreEspecialidad) = LOWER(@Nombre) AND (@Id IS NULL OR IdEspecialidad != @Id)", cn);
                 verificar.Parameters.AddWithValue("@Nombre", nombre);
                 verificar.Parameters.AddWithValue("@Id", (object)especialidadSeleccionadaId ?? DBNull.Value);
@@ -105,13 +104,11 @@ namespace MedsiteV2
 
                 if (especialidadSeleccionadaId.HasValue)
                 {
-                    // EDITAR
                     cmd = new SqlCommand("UPDATE Especialidades SET NombreEspecialidad = @Nombre WHERE IdEspecialidad = @Id", cn);
                     cmd.Parameters.AddWithValue("@Id", especialidadSeleccionadaId.Value);
                 }
                 else
                 {
-                    // NUEVO
                     cmd = new SqlCommand("INSERT INTO Especialidades (NombreEspecialidad) VALUES (@Nombre)", cn);
                 }
 
@@ -177,7 +174,6 @@ namespace MedsiteV2
             }
         }
 
-        //SELECCIONAR ESPECIALIDAD PARA BORRAR (AGREGAR PODER EDITARLA)
         private void dgvEspecialidades_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)

@@ -40,7 +40,7 @@
             this.cmbCita.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCita.Location = new System.Drawing.Point(120, 20);
             this.cmbCita.Name = "cmbCita";
-            this.cmbCita.Size = new System.Drawing.Size(121, 24);
+            this.cmbCita.Size = new System.Drawing.Size(300, 24);
             this.cmbCita.TabIndex = 1;
             // 
             // lblDiagnostico
@@ -78,6 +78,7 @@
             // btnGuardar
             // 
             this.btnGuardar.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGuardar.ForeColor = System.Drawing.Color.SteelBlue;
             this.btnGuardar.Location = new System.Drawing.Point(120, 140);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(97, 33);
@@ -88,11 +89,12 @@
             // dgvDiagnosticos
             // 
             this.dgvDiagnosticos.AllowUserToAddRows = false;
+            this.dgvDiagnosticos.BackgroundColor = System.Drawing.SystemColors.ControlLight;
             this.dgvDiagnosticos.ColumnHeadersHeight = 29;
             this.dgvDiagnosticos.Location = new System.Drawing.Point(25, 190);
             this.dgvDiagnosticos.Name = "dgvDiagnosticos";
             this.dgvDiagnosticos.RowHeadersWidth = 51;
-            this.dgvDiagnosticos.Size = new System.Drawing.Size(600, 200);
+            this.dgvDiagnosticos.Size = new System.Drawing.Size(600, 218);
             this.dgvDiagnosticos.TabIndex = 7;
             // 
             // FrmDiagnostico

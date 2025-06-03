@@ -28,6 +28,7 @@
             this.btnAgendar = new System.Windows.Forms.Button();
             this.dgvCitas = new System.Windows.Forms.DataGridView();
             this.btnLimpiar = new System.Windows.Forms.Button();
+            this.btnEliminar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCitas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,16 +44,16 @@
             // cmbPaciente
             // 
             this.cmbPaciente.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPaciente.Location = new System.Drawing.Point(136, 18);
+            this.cmbPaciente.Location = new System.Drawing.Point(33, 45);
             this.cmbPaciente.Name = "cmbPaciente";
-            this.cmbPaciente.Size = new System.Drawing.Size(121, 24);
+            this.cmbPaciente.Size = new System.Drawing.Size(300, 24);
             this.cmbPaciente.TabIndex = 1;
             this.cmbPaciente.SelectedIndexChanged += new System.EventHandler(this.cmbPaciente_SelectedIndexChanged);
             // 
             // lblMedico
             // 
             this.lblMedico.Font = new System.Drawing.Font("Arial", 9F);
-            this.lblMedico.Location = new System.Drawing.Point(30, 59);
+            this.lblMedico.Location = new System.Drawing.Point(30, 84);
             this.lblMedico.Name = "lblMedico";
             this.lblMedico.Size = new System.Drawing.Size(100, 23);
             this.lblMedico.TabIndex = 2;
@@ -61,16 +62,16 @@
             // cmbMedico
             // 
             this.cmbMedico.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbMedico.Location = new System.Drawing.Point(136, 58);
+            this.cmbMedico.Location = new System.Drawing.Point(33, 110);
             this.cmbMedico.Name = "cmbMedico";
-            this.cmbMedico.Size = new System.Drawing.Size(121, 24);
+            this.cmbMedico.Size = new System.Drawing.Size(297, 24);
             this.cmbMedico.TabIndex = 3;
             this.cmbMedico.SelectedIndexChanged += new System.EventHandler(this.cmbMedico_SelectedIndexChanged);
             // 
             // lblFechaHora
             // 
             this.lblFechaHora.Font = new System.Drawing.Font("Arial", 9F);
-            this.lblFechaHora.Location = new System.Drawing.Point(30, 99);
+            this.lblFechaHora.Location = new System.Drawing.Point(30, 152);
             this.lblFechaHora.Name = "lblFechaHora";
             this.lblFechaHora.Size = new System.Drawing.Size(100, 23);
             this.lblFechaHora.TabIndex = 4;
@@ -78,16 +79,16 @@
             // 
             // dtpFechaHora
             // 
-            this.dtpFechaHora.Location = new System.Drawing.Point(136, 98);
+            this.dtpFechaHora.Location = new System.Drawing.Point(33, 189);
             this.dtpFechaHora.Name = "dtpFechaHora";
-            this.dtpFechaHora.Size = new System.Drawing.Size(200, 22);
+            this.dtpFechaHora.Size = new System.Drawing.Size(297, 22);
             this.dtpFechaHora.TabIndex = 5;
             this.dtpFechaHora.ValueChanged += new System.EventHandler(this.dtpFechaHora_ValueChanged);
             // 
             // lblEstado
             // 
             this.lblEstado.Font = new System.Drawing.Font("Arial", 9F);
-            this.lblEstado.Location = new System.Drawing.Point(30, 139);
+            this.lblEstado.Location = new System.Drawing.Point(30, 230);
             this.lblEstado.Name = "lblEstado";
             this.lblEstado.Size = new System.Drawing.Size(100, 23);
             this.lblEstado.TabIndex = 6;
@@ -101,18 +102,19 @@
             "Confirmada",
             "Cancelada",
             "Completada"});
-            this.cmbEstado.Location = new System.Drawing.Point(136, 138);
+            this.cmbEstado.Location = new System.Drawing.Point(33, 256);
             this.cmbEstado.Name = "cmbEstado";
-            this.cmbEstado.Size = new System.Drawing.Size(121, 24);
+            this.cmbEstado.Size = new System.Drawing.Size(297, 24);
             this.cmbEstado.TabIndex = 7;
             this.cmbEstado.SelectedIndexChanged += new System.EventHandler(this.cmbEstado_SelectedIndexChanged);
             // 
             // btnAgendar
             // 
             this.btnAgendar.Font = new System.Drawing.Font("Arial", 9F);
-            this.btnAgendar.Location = new System.Drawing.Point(133, 181);
+            this.btnAgendar.ForeColor = System.Drawing.Color.SteelBlue;
+            this.btnAgendar.Location = new System.Drawing.Point(33, 327);
             this.btnAgendar.Name = "btnAgendar";
-            this.btnAgendar.Size = new System.Drawing.Size(97, 33);
+            this.btnAgendar.Size = new System.Drawing.Size(297, 33);
             this.btnAgendar.TabIndex = 8;
             this.btnAgendar.Text = "Agendar";
             this.btnAgendar.Click += new System.EventHandler(this.btnAgendar_Click);
@@ -120,27 +122,43 @@
             // dgvCitas
             // 
             this.dgvCitas.AllowUserToAddRows = false;
+            this.dgvCitas.BackgroundColor = System.Drawing.SystemColors.ControlLight;
             this.dgvCitas.ColumnHeadersHeight = 29;
-            this.dgvCitas.Location = new System.Drawing.Point(24, 238);
+            this.dgvCitas.Location = new System.Drawing.Point(379, 12);
             this.dgvCitas.Name = "dgvCitas";
             this.dgvCitas.RowHeadersWidth = 51;
-            this.dgvCitas.Size = new System.Drawing.Size(600, 200);
+            this.dgvCitas.Size = new System.Drawing.Size(576, 436);
             this.dgvCitas.TabIndex = 9;
             this.dgvCitas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCitas_CellClick);
             // 
             // btnLimpiar
             // 
             this.btnLimpiar.Font = new System.Drawing.Font("Arial", 9F);
-            this.btnLimpiar.Location = new System.Drawing.Point(233, 181);
+            this.btnLimpiar.ForeColor = System.Drawing.Color.PowderBlue;
+            this.btnLimpiar.Location = new System.Drawing.Point(33, 366);
             this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(97, 33);
+            this.btnLimpiar.Size = new System.Drawing.Size(297, 33);
             this.btnLimpiar.TabIndex = 15;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
+            // btnEliminar
+            // 
+            this.btnEliminar.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminar.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.btnEliminar.Location = new System.Drawing.Point(33, 406);
+            this.btnEliminar.Margin = new System.Windows.Forms.Padding(4);
+            this.btnEliminar.Name = "btnEliminar";
+            this.btnEliminar.Size = new System.Drawing.Size(297, 33);
+            this.btnEliminar.TabIndex = 16;
+            this.btnEliminar.Text = "Eliminar";
+            this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
+            // 
             // FrmCitas
             // 
-            this.ClientSize = new System.Drawing.Size(650, 460);
+            this.ClientSize = new System.Drawing.Size(968, 460);
+            this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.lblPaciente);
             this.Controls.Add(this.cmbPaciente);
@@ -163,5 +181,6 @@
         }
 
         private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.Button btnEliminar;
     }
 }

@@ -107,7 +107,6 @@ namespace MedsiteV2
                 cmd.Parameters.AddWithValue("@Receta", txtReceta.Text.Trim());
                 cmd.ExecuteNonQuery();
 
-                // Marcar cita como completada
                 string updateCita = "UPDATE Citas SET Estado = 'Completada' WHERE IdCita = @IdCita";
                 SqlCommand cmdCita = new SqlCommand(updateCita, cn);
                 cmdCita.Parameters.AddWithValue("@IdCita", cmbCita.SelectedValue);
